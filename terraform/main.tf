@@ -15,7 +15,7 @@ terraform {
     bucket = "ksp-states-demo"  # create gs://tf-states-demo
     prefix = "tf-state" # create folders "terraform/state" --> gs://tf-states-demo/terraform/state/
     ######## On run "Terraform init", TF will put default state at gs://tf-states-demo/terraform/state/default.tfstate 
-    credentials = "ksp-gcp-58608-940c0b458e09.json"   # this is needed if you run from local TF CLI
+    #credentials = "ksp-gcp-58608-940c0b458e09.json"   # this is needed if you run from local TF CLI
   }
 }
 
@@ -44,7 +44,7 @@ locals {
 
 provider "google" {
   project     = local.project
-  credentials = file(var.credentials_file)
+  #credentials = file(var.credentials_file)
   region      = var.region
   zone        = local.instance_zone
 }
