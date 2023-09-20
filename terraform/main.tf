@@ -12,10 +12,10 @@
 # Each set of credentials ensures that Terraform can perform its specific tasks securely and with the necessary permissions. 
 terraform {
   backend "gcs" {
-    bucket = "ksp-states-demo" # create gs://tf-states-demo
-    prefix = "tf-state"  # create folders "terraform/state" --> gs://tf-states-demo/terraform/state/
+    bucket = "ksp-states-demo"  # create gs://tf-states-demo
+    prefix = "tf-state" # create folders "terraform/state" --> gs://tf-states-demo/terraform/state/
     ######## On run "Terraform init", TF will put default state at gs://tf-states-demo/terraform/state/default.tfstate 
-    #credentials = "ksp-gcp-58608-940c0b458e09.json"
+    #credentials = "ksp-gcp-58608-940c0b458e09.json"   # this is needed if you run from local TF CLI
   }
 }
 
@@ -72,12 +72,7 @@ resource "google_compute_instance" "my-tf-ansi-ks" {
     access_config {
     }
   }
-  metadata_startup_script = <<-EOF
-  #!/bin/bash
-  sudo apt-get update
-  sudo apt-get install -y python3-pip
-  sudo pip3 install ansible
-  EOF
+  
 }
 
 # Output the public IP address of the created instance
