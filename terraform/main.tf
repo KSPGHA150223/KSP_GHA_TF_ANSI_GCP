@@ -12,17 +12,17 @@
 # Each set of credentials ensures that Terraform can perform its specific tasks securely and with the necessary permissions. 
 terraform {
   backend "gcs" {
-    bucket = "tf-states-demo" # create gs://tf-states-demo
-    prefix = "tf_ansi/state"  # create folders "terraform/state" --> gs://tf-states-demo/terraform/state/
+    bucket = "ksp-states-demo" # create gs://tf-states-demo
+    prefix = "tf-state"  # create folders "terraform/state" --> gs://tf-states-demo/terraform/state/
     ######## On run "Terraform init", TF will put default state at gs://tf-states-demo/terraform/state/default.tfstate 
-    #credentials = "zinc-arc-396916-9d8a70ea2239.json"
+    #credentials = "ksp-gcp-58608-940c0b458e09.json"
   }
 }
 
 variable "credentials_file" {
   type        = string
   description = "credentials"
-  default     = "zinc-arc-396916-9d8a70ea2239.json"
+  default     = "ksp-gcp-58608-940c0b458e09.json"
 }
 variable "region" {
   type        = string
@@ -30,8 +30,8 @@ variable "region" {
   default     = "us-west4"
 }
 locals {
-  project       = "zinc-arc-396916"
-  instance_name = "my-tf-ansi-vm1"
+  project       = "ksp-gcp-58608"
+  instance_name = "myks-tf-ansi-vm1"
   instance_zone = "us-west4-a"
   machine_type  = "e2-medium"
   image         = "ubuntu-os-cloud/ubuntu-2004-lts"
@@ -59,7 +59,7 @@ resource "google_compute_firewall" "allow-ssh" {
   source_ranges = ["0.0.0.0/0"]
 }
 
-resource "google_compute_instance" "my-tf-ansi" {
+resource "google_compute_instance" "my-tf-ansi-ks" {
   name         = local.instance_name
   machine_type = local.machine_type
   boot_disk {
