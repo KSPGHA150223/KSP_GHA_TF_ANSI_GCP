@@ -44,7 +44,7 @@ locals {
 
 provider "google" {
   project     = local.project
-  #credentials = file(var.credentials_file)
+  credentials = file(var.credentials_file)
   region      = var.region
   zone        = local.instance_zone
 }
