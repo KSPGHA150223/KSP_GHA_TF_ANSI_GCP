@@ -1,0 +1,66 @@
+---
+- hosts: your_target_host
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Display start message
+      debug:
+        msg: "********************************************************************************"
+    
+    - name: Display start time
+      command: date
+      register: start_time
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Display starting message
+      debug:
+        msg: "Starting at : {{ start_time.stdout }}"
+    
+    - name: Display end message
+      debug:
+        msg: "********************************************************************************"
+    
+    - name: Define PROJECT_SEARCH_DOMAIN variable
+      set_fact:
+        PROJECT_SEARCH_DOMAIN: "search c.gcp-keng01.internal. google.internal. c.gcp-keng01.internal int.dev.mykronos.com"
+    
+    - name: Define PROJECT_NAMESERVERS variable
+      set_fact:
+        PROJECT_NAMESERVERS: "nameserver 10.3.16.88"
+    
+    - name: Create /tmp/resolv.conf.tmp
+      template:
+        src: resolv.conf.tmp.j2
+        dest: /tmp/resolv.conf.tmp
+    
+    - name: Replace semicolons with newlines
+      command: sed -i -e 's/;/\\n/g' /tmp/resolv.conf.tmp
+      args:
+        warn: no
+    
+    - name: Copy /tmp/resolv.conf.tmp to /etc/resolv.conf
+      command: cp /tmp/resolv.conf.tmp /etc/resolv.conf
+      args:
+        warn: no
+    
+    - name: Display "Updated /etc/resolv.conf"
+      command: cat /etc/resolv.conf
+    
+    - name: Display end message
+      debug:
+        msg: "################################################################################"
+    
+    - name: Display end time
+      command: date
+      register: end_time
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Display finishing message
+      debug:
+        msg: "Finishing at : {{ end_time.stdout }}"
+    
+    - name: Display end message
+      debug:
+        msg: "################################################################################"

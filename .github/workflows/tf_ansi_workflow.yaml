@@ -98,6 +98,6 @@ jobs:
 
     - name: Run Ansible Playbook
       run: |
-        cd ansible  
-        ansible-playbook install_apache.yml    
+        cd ansible   
+        ansible-playbook Overwrite_Resolv_Conf.yml
    
