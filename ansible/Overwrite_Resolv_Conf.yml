@@ -47,21 +47,21 @@
 
     - name: Creating an empty file
       file:
-        path: "/etc/resolv.conf"
+        path: "/etc/resolv_1.conf"
         state: touch
-        
-    - name: Copy /tmp/resolv.conf.tmp to /etc/resolv.conf
+
+    - name: Copy /tmp/resolv.conf.tmp to /etc/resolv_1.conf
       ansible.builtin.copy:
         src: /tmp/resolv.conf.tmp
-        dest: /etc/resolv.conf
+        dest: /etc/resolv_1.conf
     
     - name: Print message
       ansible.builtin.debug:
-        msg: "Updated /etc/resolv.conf"
+        msg: "Updated /etc/resolv_1.conf"
 
     - name: Read the contents of /etc/resolv.conf
       ansible.builtin.shell:
-        cmd: cat /etc/resolv.conf
+        cmd: cat /etc/resolv_1.conf
       register: resolv_conf_content
 
     - name: Display the contents of /etc/resolv.conf
