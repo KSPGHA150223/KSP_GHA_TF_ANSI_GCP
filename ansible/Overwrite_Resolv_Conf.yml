@@ -1,5 +1,5 @@
 ---
-- hosts: your_target_host
+- hosts: localhost
   gather_facts: no
   become: yes
   tasks:
