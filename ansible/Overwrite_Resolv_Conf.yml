@@ -39,22 +39,37 @@
         - '{{ PROJECT_SEARCH_DOMAIN }}'
         - '{{ PROJECT_NAMESERVERS }}'
     
-    - name: Replace semicolons with newlines
-      command: sed -i -e 's/;/\\n/g' /tmp/resolv.conf.tmp
-      args:
-        warn: no
+    - name: Replace semicolons with newlines in /tmp/resolv.conf.tmp
+      ansible.builtin.replace:
+        path: /tmp/resolv.conf.tmp
+        regexp: ';'
+        replace: '\n'
     
     - name: Copy /tmp/resolv.conf.tmp to /etc/resolv.conf
-      command: cp /tmp/resolv.conf.tmp /etc/resolv.conf
-      args:
-        warn: no
+      ansible.builtin.copy:
+        src: /tmp/resolv.conf.tmp
+        dest: /etc/resolv.conf
     
-    - name: Display "Updated /etc/resolv.conf"
-      command: cat /etc/resolv.conf
-    
-    - name: Display end message
-      debug:
+    - name: Print message
+      ansible.builtin.debug:
+        msg: "Updated /etc/resolv.conf"
+
+    - name: Read the contents of /etc/resolv.conf
+      ansible.builtin.shell:
+        cmd: cat /etc/resolv.conf
+      register: resolv_conf_content
+
+    - name: Display the contents of /etc/resolv.conf
+      ansible.builtin.debug:
+        var: resolv_conf_content.stdout_lines
+
+    - name: Print a line of hashes
+      ansible.builtin.debug:
         msg: "################################################################################"
+
+    - name: Display end message
+      ansible.builtin.debug:
+        msg: "Finishing Execution - Overwrite_Resolv_Conf"
     
     - name: Display end time
       command: date
