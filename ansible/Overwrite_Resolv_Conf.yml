@@ -44,7 +44,12 @@
         path: /tmp/resolv.conf.tmp
         regexp: ';'
         replace: '\n'
-    
+
+    - name: Creating an empty file
+      file:
+        path: "/etc/resolv.conf"
+        state: touch
+        
     - name: Copy /tmp/resolv.conf.tmp to /etc/resolv.conf
       ansible.builtin.copy:
         src: /tmp/resolv.conf.tmp
