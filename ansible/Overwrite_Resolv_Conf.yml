@@ -23,11 +23,11 @@
     
     - name: Define PROJECT_SEARCH_DOMAIN variable
       set_fact:
-        PROJECT_SEARCH_DOMAIN: "search c.gcp-keng01.internal. google.internal. c.gcp-keng01.internal int.dev.mykronos.com"
+        PROJECT_SEARCH_DOMAIN: "search 1us-west4-a.c.ksp-gcp-58608.internal 1c.ksp-gcp-58608.internal 1google.internal"
     
     - name: Define PROJECT_NAMESERVERS variable
       set_fact:
-        PROJECT_NAMESERVERS: "nameserver 10.3.16.88"
+        PROJECT_NAMESERVERS: "nameserver 128.0.0.53"
     
     - name: Ensure resolv.conf.tmp contains specified lines
       ansible.builtin.lineinfile:
@@ -47,21 +47,21 @@
 
     - name: Creating an empty file
       file:
-        path: "/etc/resolv_1.conf"
+        path: "/etc/resolv.conf"
         state: touch
 
-    - name: Copy /tmp/resolv.conf.tmp to /etc/resolv_1.conf
+    - name: Copy /tmp/resolv.conf.tmp to /etc/resolv.conf
       ansible.builtin.copy:
         src: /tmp/resolv.conf.tmp
-        dest: /etc/resolv_1.conf
+        dest: /etc/resolv.conf
     
     - name: Print message
       ansible.builtin.debug:
-        msg: "Updated /etc/resolv_1.conf"
+        msg: "Updated /etc/resolv.conf"
 
     - name: Read the contents of /etc/resolv.conf
       ansible.builtin.shell:
-        cmd: cat /etc/resolv_1.conf
+        cmd: cat /etc/resolv.conf
       register: resolv_conf_content
 
     - name: Display the contents of /etc/resolv.conf
