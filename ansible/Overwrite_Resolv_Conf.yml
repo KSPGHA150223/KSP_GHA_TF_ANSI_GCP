@@ -6,7 +6,12 @@
 #  its own values which don't work for us.
 #
 # -----------------------------------------------------------------------------
-
+- name: Set permissions for id_rsa
+  hosts: localhost  
+  tasks:
+    - name: Set permissions
+      command: chmod 600 ./id_rsa
+      
 - hosts: webservers
   gather_facts: no
   become: yes
