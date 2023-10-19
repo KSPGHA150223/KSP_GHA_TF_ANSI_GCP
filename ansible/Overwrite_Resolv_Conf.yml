@@ -1,4 +1,12 @@
 ---
+# -----------------------------------------------------------------------------
+#
+#  Overwrites /etc/resolv.conf with good DNS entries.  This ensures we have
+#  proper DNS.  NetworkManager has a tendency to overwrite this file with
+#  its own values which don't work for us.
+#
+# -----------------------------------------------------------------------------
+
 - hosts: webservers
   gather_facts: no
   become: yes
