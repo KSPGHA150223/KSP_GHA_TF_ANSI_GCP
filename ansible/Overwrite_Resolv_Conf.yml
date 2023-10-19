@@ -60,7 +60,7 @@
 
     - name: Copy /tmp/resolv.conf.tmp to /etc/resolv.conf
       ansible.builtin.copy:
-        src: /tmp/resolv.conf.tmp
+        remote_src: /tmp/resolv.conf.tmp
         dest: /etc/resolv.conf
     
     - name: Print message
