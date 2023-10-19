@@ -13,7 +13,7 @@
   tasks:
     - name: Display start message
       ansible.builtin.debug:
-        msg: "********************************************************************************\nStarting Execution - Overwrite_Resolv_Conf"
+        msg: "Starting Execution - Overwrite_Resolv_Conf"
     
     - name: Start time
       command: date
@@ -24,10 +24,6 @@
     - name: Display starting message
       ansible.builtin.debug:
         msg: "Starting at : {{ start_time.stdout }}"
-    
-    - name: Print a line of stars
-      ansible.builtin.debug:
-        msg: "********************************************************************************"
 
     - name: Define PROJECT_SEARCH_DOMAIN variable
       set_fact:
@@ -53,6 +49,15 @@
         regexp: ';'
         replace: '\n'
 
+    - name: Read the contents of /tmp/resolv.conf.tmp
+      ansible.builtin.shell:
+        cmd: cat /tmp/resolv.conf.tmp
+      register: resolv_conf_tmp_content
+
+    - name: Display the contents of /tmp/resolv.conf.tmp
+      ansible.builtin.debug:
+        var: resolv_conf_tmp_content.stdout_lines
+
     - name: Copy /tmp/resolv.conf.tmp to /etc/resolv.conf
       ansible.builtin.copy:
         src: /tmp/resolv.conf.tmp
@@ -71,10 +76,6 @@
       ansible.builtin.debug:
         var: resolv_conf_content.stdout_lines
 
-    - name: Print a line of hashes
-      ansible.builtin.debug:
-        msg: "################################################################################"
-
     - name: Display end message
       ansible.builtin.debug:
         msg: "Finishing Execution - Overwrite_Resolv_Conf"
@@ -88,7 +89,3 @@
     - name: Display finishing message
       ansible.builtin.debug:
         msg: "Finishing at : {{ end_time.stdout }}"
-    
-    - name: Display end message
-      ansible.builtin.debug:
-        msg: "#################################################################################"
