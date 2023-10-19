@@ -12,23 +12,23 @@
   become: yes
   tasks:
     - name: Display start message
-      debug:
-        msg: "********************************************************************************"
+      ansible.builtin.debug:
+        msg: "********************************************************************************\nStarting Execution - Overwrite_Resolv_Conf"
     
-    - name: Display start time
+    - name: Start time
       command: date
       register: start_time
       changed_when: false
       ignore_errors: yes
 
     - name: Display starting message
-      debug:
+      ansible.builtin.debug:
         msg: "Starting at : {{ start_time.stdout }}"
     
-    - name: Display end message
-      debug:
+    - name: Print a line of stars
+      ansible.builtin.debug:
         msg: "********************************************************************************"
-    
+
     - name: Define PROJECT_SEARCH_DOMAIN variable
       set_fact:
         PROJECT_SEARCH_DOMAIN: "search 1us-west4-a.c.ksp-gcp-58608.internal 1c.ksp-gcp-58608.internal 1google.internal"
@@ -52,11 +52,6 @@
         path: /tmp/resolv.conf.tmp
         regexp: ';'
         replace: '\n'
-
-    - name: Creating an empty file
-      file:
-        path: "/etc/resolv.conf"
-        state: touch
 
     - name: Copy /tmp/resolv.conf.tmp to /etc/resolv.conf
       ansible.builtin.copy:
@@ -91,9 +86,9 @@
       ignore_errors: yes
 
     - name: Display finishing message
-      debug:
+      ansible.builtin.debug:
         msg: "Finishing at : {{ end_time.stdout }}"
     
     - name: Display end message
-      debug:
+      ansible.builtin.debug:
         msg: "#################################################################################"
